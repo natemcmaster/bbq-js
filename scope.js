@@ -6,8 +6,15 @@ function Scope(parent) {
 }
 
 Scope.prototype.lookup = function(key) {
-    if (this[key])
-        return this[key];
+    var keyParts = key.split('.');
+    var obj = this;
+    for (var i = 0; i < keyParts.length; i++) {
+        obj = obj[keyParts[i]];
+        if (!obj)
+            break;
+    }
+    if (!!obj)
+        return obj;
     else if (this.__parent && util.isFunction(this.__parent.lookup))
         return this.__parent.lookup(key);
     return undefined;
@@ -19,6 +26,5 @@ Scope.prototype.set = function(key, value) {
     else if (this.__parent && util.isFunction(this.__parent.set))
         this.__parent.set(key, value);
 };
-
 
 module.exports = Scope;

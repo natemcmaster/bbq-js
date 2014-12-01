@@ -15,7 +15,8 @@ function createSubScope(template, parentObj, key, itemKey) {
 
     util.addWatcher(parentObj, key, function() {
         var setter = Object.getOwnPropertyDescriptor($itemScope, itemKey).set;
-        setter.apply($itemScope, arguments);
+        if(util.isFunction(setter))
+            setter.apply($itemScope, arguments);
     });
     var newItem = template.cloneNode(true);
     newItem.removeAttribute('bbq-repeat');
@@ -32,6 +33,9 @@ module.exports = function(bbq) {
                     throw new Error('Invalid bbq-repeat syntax');
                 var itemKey = keys[0],
                     groupKey = keys[1];
+
+                if(!$scope.lookup(groupKey))
+                    return;
 
                 if (!util.isArray($scope.lookup(groupKey)))
                     throw new Error('Cannot use non-array items with repeat (yet)');

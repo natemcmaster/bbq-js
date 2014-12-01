@@ -25,8 +25,8 @@ ObservableArray.prototype.trigger = function(eventName) {
 };
 
 ObservableArray.prototype.push = function(val) {
-    this.trigger('push', val, this.length);
     Array.prototype.push.apply(this, arguments);
+    this.trigger('push', val, this.length -1);
 };
 
 module.exports = ObservableArray;

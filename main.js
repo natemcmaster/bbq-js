@@ -3,7 +3,7 @@ var util = require('./util'),
 
 function processTextNode(el, $scope) {
     var str = el.textContent;
-    var matches = str.match(/\{\{\s*([\w^}])+\s*\}\}/g); /// find bracket tags
+    var matches = str.match(/\{\{\s*([.\w^}])+\s*\}\}/g); /// find bracket tags
     if (!matches)
         return;
     var nodes = [];

@@ -76,9 +76,7 @@ util.setAttribute = function(element, attr, value, trigger) {
     if (element === trigger) {
         return;
     }
-    if (attr == 'textContent' && !value)
-        value = '';
-    element[attr] = value;
+    element[attr] = value || '' ;
 };
 
 module.exports = util;

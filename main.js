@@ -1,4 +1,5 @@
-var util = require('./util');
+var util = require('./util'),
+    Scope = require('./scope');
 
 function processTextNode(el, $scope) {
     var str = el.textContent;
@@ -48,7 +49,7 @@ function bbq() {
 bbq.prototype.controller = function(name, init) {
     var c = {
         name: name,
-        $scope: {}
+        $scope: new Scope()
     };
     init(c.$scope);
     this.__controllers[name] = c;

@@ -14,9 +14,10 @@ util.parseEventCall = function(str) {
 util.isFunction = function(obj) {
     return !!obj && typeof obj === 'function';
 };
+
 util.createBinding = function(element, key, $scope, attr) {
-    if (!$scope[key]) {
-        $scope[key] = '';
+    if (!$scope.lookup(key)) {
+        $scope[key]='';
     }
     if (typeof $scope.__values === 'undefined') {
         $scope.__values = {};
@@ -25,11 +26,11 @@ util.createBinding = function(element, key, $scope, attr) {
         $scope.__setters = {};
     }
     if (!$scope.__values[key]) {
-        $scope.__values[key] = $scope[key]; //TODO deep copy
+        $scope.__values[key] = $scope.lookup(key); //TODO deep copy
     }
     $scope.__setters[key] = $scope.__setters[key] || [];
 
-    util.setAttribute(element, $scope[key], attr);
+    util.setAttribute(element, $scope.lookup(key), attr);
     $scope.__setters[key].push(function(val, trigger) {
         util.setAttribute(element, val, attr, trigger);
     });

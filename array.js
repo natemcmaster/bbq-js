@@ -1,6 +1,7 @@
 var util = require('./util');
 
 function ObservableArray(base) {
+    base = base || [];
     this.handlers = {};
     this.push.apply(this, base);
     return this;
@@ -24,9 +25,12 @@ ObservableArray.prototype.trigger = function(eventName) {
     }
 };
 
-ObservableArray.prototype.push = function(val) {
+ObservableArray.prototype.push = function() {
+    var start = this.length;
     Array.prototype.push.apply(this, arguments);
-    this.trigger('push', val, this.length -1);
+    for (var i = 0; i < arguments.length; i++) {
+        this.trigger('push', arguments[i], start + i);
+    }
 };
 
 module.exports = ObservableArray;

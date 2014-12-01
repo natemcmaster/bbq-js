@@ -27,4 +27,8 @@ Scope.prototype.set = function(key, value) {
         this.__parent.set(key, value);
 };
 
+Scope.prototype.$watch = function(key,update){
+    return util.addWatcher(this,key,update);
+};
+
 module.exports = Scope;

@@ -76,14 +76,17 @@ bbq.prototype.processor = function(element, $scope) {
         return;
 
     if (element.getAttribute) {
+        var added=[];
         for (var x in element.attributes) {
             var key = element.attributes[x].name;
             if (!this.__directives[key])
                 continue;
             var value = element.getAttribute(key);
             this.__directives[key].link.call(this, element, $scope, value);
-            element.removeAttribute(key);
+            added.push(key);
         }
+        for(var x in added)
+            element.removeAttribute(added[x]);
     }
 
     if (element.nodeType == Node.TEXT_NODE) {

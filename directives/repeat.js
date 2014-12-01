@@ -46,17 +46,14 @@ module.exports = function(bbq) {
                 element.parentNode.removeChild(element);
                 delete element;
 
-                var collection = new ObservableArray($scope[groupKey]);
-
-                for (var i = 0; i < collection.length; i++) {
-                    var item=createSubScope.call(this, template, collection, i, itemKey);
-                    anchor.parentNode.insertBefore(item, anchor);
-                }
+                var collection = new ObservableArray();
 
                 collection.on('push',function(val,index){
                     var item=createSubScope.call(this, template, collection, index, itemKey);
                     anchor.parentNode.insertBefore(item, anchor);
                 }.bind(this));
+
+                collection.push.apply(collection,$scope[groupKey]); // add all
 
                 $scope[groupKey] = collection;
 

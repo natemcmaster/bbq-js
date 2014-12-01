@@ -1,8 +1,10 @@
+var util=require('../util')
+
 module.exports = function(bbq) {
     bbq.directive('data', function() {
         return {
             link: function(element, scope, attr) {
-                createBinding(element, attr, scope, 'textContent');
+                util.bindAttribute(element, 'textContent', scope, attr);
             }
         };
     });

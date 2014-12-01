@@ -1,11 +1,11 @@
 var util = require('./util');
 
-function scope(parent) {
+function Scope(parent) {
     if (!!parent)
         this.__parent = parent;
 }
 
-scope.prototype.lookup = function(key) {
+Scope.prototype.lookup = function(key) {
     if (this[key])
         return this[key];
     else if (this.__parent && util.isFunction(this.__parent.lookup))
@@ -13,7 +13,7 @@ scope.prototype.lookup = function(key) {
     return undefined;
 };
 
-scope.prototype.set = function(key, value) {
+Scope.prototype.set = function(key, value) {
     if (this[key])
         this[key] = value;
     else if (this.__parent && util.isFunction(this.__parent.set))
@@ -21,4 +21,4 @@ scope.prototype.set = function(key, value) {
 };
 
 
-module.exports = scope;
+module.exports = Scope;

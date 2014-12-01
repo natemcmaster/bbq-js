@@ -1,13 +1,13 @@
-var util=require('../util');
+var util = require('../util');
 
 module.exports = function(bbq) {
 
     bbq.directive('model', function() {
         return {
-            link: function(element, scope, attr) {
+            link: function(element, $scope, attr) {
                 var l = function(ev) {
-                    var setter = scope.__lookupSetter__(attr);
-                    setter.call(scope, ev.target.value, ev.target);
+                    var setter = $scope.__lookupSetter__(attr);
+                    setter.call($scope, ev.target.value, ev.target);
                 };
                 element.addEventListener('input', l, false);
                 var parent = element.parentNode;
@@ -18,7 +18,7 @@ module.exports = function(bbq) {
                     }
                     parent = parent.parentNode;
                 }
-                util.createBinding(element, attr, scope, 'value');
+                util.bindAttribute(element, 'value', $scope, attr);
             }
         };
     });

@@ -8,6 +8,7 @@ function processTextNode(el, $scope) {
         return;
     var nodes = [];
     var unprocessed = str;
+    // TODO use splitText instead
     for (var i = 0; i < matches.length; i++) {
         var tag = matches[i];
         var n = unprocessed.indexOf(tag);
@@ -15,11 +16,10 @@ function processTextNode(el, $scope) {
             var t = document.createTextNode(unprocessed.substring(0, n));
             nodes.push(t);
         }
-
         var name = tag.replace(/[{}\s]/g, '');
 
         var span = document.createTextNode('');
-        util.createBinding(span, name, $scope, 'textContent');
+        util.bindAttribute(span, 'textContent', $scope, name);
         nodes.push(span);
 
         unprocessed = unprocessed.slice(n + tag.length);
@@ -75,20 +75,19 @@ bbq.prototype.processor = function(element, $scope) {
     if (!$scope)
         return;
 
-    if (element.nodeType == Node.TEXT_NODE) {
-        processTextNode(element, $scope); // text nodes bound to data
+    if (element.getAttribute) {
+        for (var x in element.attributes) {
+            var key = element.attributes[x].name;
+            if (!this.__directives[key])
+                continue;
+            var value = element.getAttribute(key);
+            this.__directives[key].link.call(this, element, $scope, value);
+            element.removeAttribute(key);
+        }
     }
 
-    if (!element.getAttribute)
-        return;
-
-    for (var x in element.attributes) {
-        var key = element.attributes[x].name;
-        if (!this.__directives[key])
-            continue;
-        var value = element.getAttribute(key);
-        this.__directives[key].link.call(this, element, $scope, value);
-        element.removeAttribute(key);
+    if (element.nodeType == Node.TEXT_NODE) {
+        processTextNode(element, $scope); // text nodes bound to data
     }
 
 };

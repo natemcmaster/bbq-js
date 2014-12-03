@@ -1,13 +1,37 @@
 var util = {};
 
-util.parseEventCall = function(str) {
+util.parseEventCall = function(str,specials) {
     if (!str || !str.match)
         return null;
-    var match = str.match(/^(\w+)\(\)/);
+    var match = str.match(/^(\w+)\(([^)]*)\)/);
     if (!match)
         return null;
     var obj = {};
     obj.name = match[1];
+    if(match.length < 3)
+        obj.args=[];
+    else
+        obj.args = match[2].split(',').filter(function(s){
+            return s.trim().length;
+        }).map(function(arg){
+            arg = arg.trim();
+            var matches = arg.match(/^'(\w+)'|"(\w+)"|(-?\d+)|true|false$/); // strings and numbers and bool
+            if(matches) {
+                return {
+                    type: 'constant',
+                    value: eval(arg) // a very careful and deliberate use
+                };
+            }
+            else if(util.isFunction(specials)) {
+                var match = specials(arg);
+                if(match)
+                    return match;
+            }
+            return {
+                type: 'variable',
+                value: arg
+            };
+        });
     return obj;
 };
 

@@ -4,7 +4,13 @@ module.exports = function(bbq)
         return {
             link: function(element, $scope, attr)
             {
-                element.setAttribute('src',$scope.lookup(attr));
+                var src=$scope.lookup(attr);
+                if(src)
+                    element.setAttribute('src',src);
+                $scope.$watch(attr,function(value){
+                    if(value)
+                        element.setAttribute('src',value);
+                });
             }
         };
     });

@@ -4,5 +4,6 @@ module.exports=[
     require('./click'),
     require('./model'),
     require('./show-hide'),
+    require('./src'),
     require('./data'),
 ];

@@ -47,6 +47,11 @@ module.exports = function(bbq) {
                 delete element;
 
                 var collection = new ObservableArray();
+                // TODO feels hacky. Clean way to do this?
+                collection.__parent = $scope;
+                collection.lookup = Scope.prototype.lookup;
+                collection.set = Scope.prototype.set;
+                collection.$watch = Scope.prototype.$watch;
 
                 collection.on('push',function(val,index){
                     var item=createSubScope.call(this, template, collection, index, itemKey);

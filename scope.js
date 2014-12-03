@@ -6,7 +6,7 @@ function Scope(parent) {
 }
 
 Scope.prototype.lookup = function(key) {
-    var keyParts = key.split('.');
+    var keyParts = (key.split) ? key.split('.') : [key];
     var obj = this;
     for (var i = 0; i < keyParts.length; i++) {
         obj = obj[keyParts[i]];

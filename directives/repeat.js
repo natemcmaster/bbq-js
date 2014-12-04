@@ -52,11 +52,21 @@ module.exports = function(bbq) {
                 collection.lookup = Scope.prototype.lookup;
                 collection.set = Scope.prototype.set;
                 collection.$watch = Scope.prototype.$watch;
-
+                collection.__elements=[];
                 collection.on('push',function(val,index){
                     var item=createSubScope.call(this, template, collection, index, itemKey);
                     anchor.parentNode.insertBefore(item, anchor);
+                    collection.__elements.push(item);
                 }.bind(this));
+
+                collection.on('splice',function(start,howMany){
+                    for(var i = 0; i < howMany; i++)
+                    {
+                        var element = collection.__elements[start+i];
+                        anchor.parentNode.removeChild(element);
+                    }
+                    collection.__elements.splice(start,howMany);
+                });
 
                 collection.push.apply(collection,$scope.lookup(groupKey)); // add all
 

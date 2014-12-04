@@ -33,4 +33,22 @@ ObservableArray.prototype.push = function() {
     }
 };
 
+ObservableArray.prototype.splice = function(start,howMany){
+    var originalLength=this.length;
+    var ret=[];
+    howMany = howMany || this.length;
+    for(var i = 0; i < howMany; i++){
+        ret.push(this[start+i]);
+        delete this[start+i];
+        this.length--;
+    }
+    for(var j = start+howMany, i=0; j < originalLength; j++, i++){
+        this[start+i] = this[j];
+        delete this[j];
+    }
+
+    this.trigger('splice',arguments[0], howMany);
+    return ret;
+};
+
 module.exports = ObservableArray;

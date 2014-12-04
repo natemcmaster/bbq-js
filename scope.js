@@ -21,10 +21,27 @@ Scope.prototype.lookup = function(key) {
 };
 
 Scope.prototype.set = function(key, value) {
-    if (this[key])
-        this[key] = value;
+    var keyExists = typeof this.lookup(key) !== 'undefined';
+    var keyParts = (key.split) ? key.split('.') : [key];
+    var obj = this;
+    var propName=keyParts[0];
+    for (var i = 0; i < keyParts.length -1; i++) {
+        if (!obj[keyParts[i]]) {
+            if(keyExists)
+                break;
+            obj[keyParts[i]]={};
+        }
+        obj = obj[keyParts[i]];
+        propName = keyParts[i+1];
+    }
+    if(obj){
+        obj[propName]=value;
+        return;
+    }
     else if (this.__parent && util.isFunction(this.__parent.set))
         this.__parent.set(key, value);
+    else
+        throw new Error('Could not set value on scope');
 };
 
 Scope.prototype.$watch = function(key,update){

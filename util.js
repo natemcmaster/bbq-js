@@ -54,7 +54,7 @@ util.isArray = function(obj) {
  */
 util.addWatcher = function($scope, key, update) {
     if (util.isFunction($scope.lookup) && !$scope.lookup(key)) {
-        $scope[key] = '';
+        $scope.set(key,'');
     }
     if (typeof $scope.__values === 'undefined') {
         $scope.__values = {};
@@ -68,21 +68,31 @@ util.addWatcher = function($scope, key, update) {
     $scope.__watchers[key] = $scope.__watchers[key] || [];
     $scope.__watchers[key].push(update);
 
-    var descriptor = Object.getOwnPropertyDescriptor($scope, key);
+
+    var obj=$scope;
+    var keyParts = (key.split) ? key.split('.') : [key];
+    var propName=keyParts[0];
+    for (var i = 0; i < keyParts.length -1; i++) {
+        if (!obj[keyParts[i]])
+            break;
+        obj = obj[keyParts[i]];
+        propName=keyParts[i+1];
+    }
+    var descriptor = Object.getOwnPropertyDescriptor(obj, propName);
     if (descriptor && !descriptor.configurable) {
         return;
     }
 
-    Object.defineProperty($scope, key, {
+    Object.defineProperty(obj, propName, {
         enumerable: true,
         configurable: false,
         set: function(val, trigger) {
-            for (var x in this.__watchers[key])
-                this.__watchers[key][x].call(this, val, trigger);
-            this.__values[key] = val;
+            for (var x in $scope.__watchers[key])
+                $scope.__watchers[key][x].call($scope, val, trigger);
+            $scope.__values[key] = val;
         },
         get: function() {
-            return this.__values[key];
+            return $scope.__values[key];
         }
     });
 };

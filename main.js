@@ -42,6 +42,7 @@ function processTextNode(el, $scope) {
 function bbq() {
     this.__controllers = {};
     this.__directives = {};
+    this.$rootScope = new Scope();
 }
 
 // Class Controller
@@ -49,8 +50,9 @@ function bbq() {
 bbq.prototype.controller = function(name, init) {
     var c = {
         name: name,
-        $scope: new Scope()
+        $scope: new Scope(this.$rootScope)
     };
+    c.$scope.$rootScope = this.$rootScope;
     init(c.$scope);
     this.__controllers[name] = c;
 };

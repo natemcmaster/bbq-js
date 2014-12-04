@@ -58,9 +58,9 @@ module.exports = function(bbq) {
                     anchor.parentNode.insertBefore(item, anchor);
                 }.bind(this));
 
-                collection.push.apply(collection,$scope[groupKey]); // add all
+                collection.push.apply(collection,$scope.lookup(groupKey)); // add all
 
-                $scope[groupKey] = collection;
+                $scope.set(groupKey,collection);
 
             }
         };

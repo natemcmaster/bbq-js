@@ -34,7 +34,7 @@ Scope.prototype.set = function(key, value) {
         obj = obj[keyParts[i]];
         propName = keyParts[i+1];
     }
-    if(obj){
+    if(obj && (keyExists ? obj[propName] : true)){
         obj[propName]=value;
         return;
     }

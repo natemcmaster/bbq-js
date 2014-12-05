@@ -1,8 +1,9 @@
 module.exports=[
     require('./repeat'),
-    require('./click'),
+    require('./events'),
     require('./model'),
     require('./show-hide'),
+    require('./disabled'),
     require('./src'),
     require('./active'),
     require('./data'),

@@ -103,7 +103,14 @@ bbq.prototype.visitChildren = function(element, controller, action) {
     if (element.getAttribute) {
         var att = element.getAttribute('bbq-controller');
         if (att && this.__controllers[att]) {
+            var parent=false;
+            if(controller && controller.$scope){
+                parent = controller.$scope;
+            }
             controller = this.__controllers[att];
+            if(parent){
+                controller.$scope.__parent = parent;
+            }
             element.removeAttribute('bbq-controller');
         }
     }

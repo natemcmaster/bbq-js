@@ -24,6 +24,8 @@ module.exports = function(bbq) {
                         });
                         func.apply(element,args);
                     }, false);
+                } else {
+                    console.error('Could not find function "'+eventCall.name+'" on $scope or $rootScope');
                 }
             }
         };

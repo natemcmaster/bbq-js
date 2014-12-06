@@ -43,4 +43,12 @@ module.exports = function(bbq) {
             }
         };
     });
+
+    bbq.directive('scroll', function() {
+        return {
+            link: function(element, $scope, attr) {
+                addEventHandler(element,$scope,attr,'scroll');
+            }
+        };
+    });
 };

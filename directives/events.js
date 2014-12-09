@@ -27,28 +27,13 @@ function addEventHandler(element,$scope,attr, eventName){
 }
 
 module.exports = function(bbq) {
-
-    bbq.directive('click', function() {
-        return {
-            link: function(element, $scope, attr) {
-                addEventHandler(element,$scope,attr,'click');
-            }
-        };
-    });
-
-    bbq.directive('submit', function() {
-        return {
-            link: function(element, $scope, attr) {
-                addEventHandler(element,$scope,attr,'submit');
-            }
-        };
-    });
-
-    bbq.directive('scroll', function() {
-        return {
-            link: function(element, $scope, attr) {
-                addEventHandler(element,$scope,attr,'scroll');
-            }
-        };
+    ['click','submit','scroll','focus','blur'].forEach(function(e){
+        bbq.directive(e, function() {
+            return {
+                link: function(element, $scope, attr) {
+                    addEventHandler(element,$scope,attr,e);
+                }
+            };
+        });
     });
 };

@@ -27,7 +27,7 @@ function addEventHandler(element,$scope,attr, eventName){
 }
 
 module.exports = function(bbq) {
-    ['click','submit','scroll','focus','blur'].forEach(function(e){
+    ['click','submit','scroll','focus','blur','keyup'].forEach(function(e){
         bbq.directive(e, function() {
             return {
                 link: function(element, $scope, attr) {

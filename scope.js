@@ -10,10 +10,10 @@ Scope.prototype.lookup = function(key) {
     var obj = this;
     for (var i = 0; i < keyParts.length; i++) {
         obj = obj[keyParts[i]];
-        if (!obj)
+        if (!util.isDefined(obj))
             break;
     }
-    if (!!obj)
+    if (util.isDefined(obj))
         return obj;
     else if (this.__parent && util.isFunction(this.__parent.lookup))
         return this.__parent.lookup(key);
@@ -26,7 +26,7 @@ Scope.prototype.set = function(key, value) {
     var obj = this;
     var propName=keyParts[0];
     for (var i = 0; i < keyParts.length -1; i++) {
-        if (!obj[keyParts[i]]) {
+        if (!util.isDefined(obj[keyParts[i]])) {
             if(keyExists)
                 break;
             obj[keyParts[i]]={};
@@ -34,7 +34,7 @@ Scope.prototype.set = function(key, value) {
         obj = obj[keyParts[i]];
         propName = keyParts[i+1];
     }
-    if(obj && (keyExists ? obj[propName] : true)){
+    if(obj && (keyExists ? util.isDefined(obj[propName]) : true)){
         obj[propName]=value;
         return;
     }

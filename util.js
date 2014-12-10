@@ -43,6 +43,10 @@ util.isArray = function(obj) {
     return !!obj && obj instanceof Array;
 };
 
+util.isDefined = function(obj){
+    return typeof obj !== 'undefined';
+};
+
 /**
  * Creates a get-set trigger on element for $scope,key.
  * If attr is set, this is the attribute to change on the element

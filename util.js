@@ -15,7 +15,7 @@ util.parseEventCall = function(str,specials) {
             return s.trim().length;
         }).map(function(arg){
             arg = arg.trim();
-            var matches = arg.match(/^'(\w+)'|"(\w+)"|(-?\d+)|true|false$/); // strings and numbers and bool
+            var matches = arg.match(/^'([\w\s]+)'|"([\w\s]+)"|(-?\d+)|true|false$/); // strings and numbers and bool
             if(matches) {
                 return {
                     type: 'constant',

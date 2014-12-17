@@ -32,6 +32,9 @@ module.exports = function(bbq) {
             return {
                 link: function(element, $scope, attr) {
                     addEventHandler(element,$scope,attr,e);
+                    if(e == 'click') {
+                        element.className += ' bbq-clickable';
+                    }
                 }
             };
         });

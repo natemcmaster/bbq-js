@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BBQ Test Page</title>
+    <script src="../dist/bbq.js"></script>
+    <script src="./testctrl.js"></script>
+</head>
+<body>
+    <div bbq-controller="TestCtrl">
+        <img bbq-src="gravatarUrl">
+        <h1 name="click">#bbq-click</h1>
+        <div>
+            <p>Count = {{ count }}</p>
+            <p bbq-data="count">Erased</p>
+            <button type="button" bbq-click="incrementCounter()">Increment</button>
+        </div>
+        <h2>Nested reference</h2>
+        <div>To: {{txt.to}}</div>
+        <div>From: {{txt.from}}</div>
+        <div>Content: {{txt.contents.txt}}</div>
+
+        <h1 name="model">#bbq-model</h1>
+        <div>
+            <form>
+                <input bbq-model="message" type="text" placeholder="type here">
+                <input type="reset" value="Reset via form reset">
+                <button type="button" bbq-click="resetMessage()">Reset via function</button>
+            </form>
+        </div>
+        <p>The message in the input box above: {{message}}</p>
+        <h1 name="repeat">#bbq-repeat</h1>
+        <div>
+            <button type="button" bbq-click="addLi()">Add item</button>
+            <button type="button" bbq-click="hipster()" bbq-show="showHipButton">Make hip</button>
+            <button type="button" bbq-click="ipsum()" bbq-hide="showHipButton">Regular ipsum</button>
+            <ol>
+                <li bbq-repeat="item in items" bbq-data="append(item,'this text')"></li>
+            </ol>
+        </div>
+        <div>
+            <h3>Names</h3>
+            <input bbq-model="addNewName" placeholder="Name">
+            <button bbq-click="addName(addNewName, $event)">Add to List</button>
+            <ul>
+                <li bbq-repeat="msg in names" bbq-click="addName(msg.name, $event)">{{msg.name}}</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
